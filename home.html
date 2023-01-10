@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        #bill {
+            border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+
+        #h3 {
+            text-align: center;
+        }
+
+        #bill p {
+            font-family: monospace;
+            letter-spacing: .17em;
+            margin: 10px auto;
+            overflow: hidden;
+            white-space: nowrap;
+            
+            animation: typing 3.5s steps(30, end), blinking-cursor .5s step-end infinite;
+            font-size: 20px;
+
+        }
+       #body form{
+        font-size: 25px;
+        margin: 10px;
+       }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>CAR SERVICING</h1>
+    </header>
+    <div id="body">
+        <form action="" >
+            <label for="">Enter your name</label>
+            <br>
+           <input type="text" id="customer" placeholder="Please enter your name">
+            <br>
+            <label for="">Enter your mobile number</label>
+            <br>
+            <input type="number" id="number" placeholder="please enter your mobile number">
+            <br>
+            <label for="">Enter your address</label>
+            <br>
+            <textarea name="address" id="address" cols="30" rows="10"></textarea>
+        </form>
+        <br>
+        <p>Click on Carname and service name to select</p>
+        <div id="table">
+            <table>
+                <tr>
+                    <th id="servicecode">service code</th>
+                    <th id="service">service</th>
+                    <th id="hatchback">Hatchback</th>
+                    <th id="sedan">Sedan</th>
+                    <th id="suv">SUV</th>
+                </tr>
+                <tr>
+                    <td>BS01</td>
+                    <td id="basicservice">Basic Servicing</td>
+                    <td>₹2000</td>
+                    <td>₹4000</td>
+                    <td>₹5000</td>
+                </tr>
+                <tr>
+                    <td>EF01</td>
+                    <td id="enginefixing">Engine fixing</td>
+                    <td>₹5000</td>
+                    <td>₹8000</td>
+                    <td>₹10000</td>
+                </tr>
+                <tr>
+                    <td>CF01</td>
+                    <td id="clutchfixing">Clutch fixing</td>
+                    <td>₹2000</td>
+                    <td>₹4000</td>
+                    <td>₹6000</td>
+                </tr>
+                <tr>
+                    <td>BF01</td>
+                    <td id="breakfixing">Brake fixing</td>
+                    <td>₹1000</td>
+                    <td>₹1500</td>
+                    <td>₹2500</td>
+                </tr>
+                <tr>
+                    <td>GF01</td>
+                    <td id="gearfixing">Gear fixing</td>
+                    <td>₹3000</td>
+                    <td>₹6000</td>
+                    <td>₹8000</td>
+                </tr>
+            </table>
+            <br>
+            <button id="generatebill">Generate bill</button>
+        </div>
+    </div>
+    <br>
+
+    <div id="bill" style="width: 100%;  height: 1000px; border: 1px solid black;">
+        <p id="billno"></p>
+        <p id="date" style="float: right;"></p>
+        <br>
+        <br>
+       <p id="cname" style="font-size: 20px;"></p>
+       <p id="mobilenumber" style="font-size: 20px;"></p>
+       <p id="customeraddress" style="font-size: 20px; "></p>
+       <br>
+        <p id="carname"></p>
+        
+        <p id="basicserviceprice"></p>
+        <p id="enginefixingprice"></p>
+        <p id="breakfixingprice"></p>
+        <p id="clutchfixingprice"></p>
+        <p id="gearfixingprice"></p>
+        <br>
+        <br>
+        <br>
+        <p id="serviceprice"></p>
+        <br>
+        <p id="complimentaryservice" style="font-size: 10px;"></p>
+        <br>
+        <p id="signhere" style="float: right; font-size: 15px;"></p>
+    </div>
+    <script>
+        //customer details 
+        var nameofcustomer = document.getElementById('customer')
+        var number = document.getElementById('number')
+        var address=document.getElementById('address')
+        //prices of different services before selecting
+        var basicserviceprice = 0;
+        var enginefixingprice = 0;
+        var breakfixingprice = 0;
+        var clutchfixingprice = 0;
+        var gearfixingprice = 0;
+        //selecting a car to add event listeners to cars
+        var hatchback = document.getElementById('hatchback')
+        var sedan = document.getElementById('sedan')
+        var suv = document.getElementById('suv')
+        var hatchbacktext;
+        var sedantext;
+        var suvtext;
+        //serives offered
+        var basicservice = document.getElementById('basicservice')
+        var enginefixing = document.getElementById('enginefixing')
+        var clutchfixing = document.getElementById('clutchfixing')
+        var gearfixing = document.getElementById('gearfixing')
+        var breakfixing = document.getElementById('breakfixing')
+
+        //total price of services
+        var price = 0
+        //button
+        var button = document.getElementById('generatebill')
+        //adding event listeners for every event
+
+        hatchback.addEventListener('click', function (e) {
+            e.preventDefault();
+            hatchbacktext = document.getElementById('hatchback').textContent;
+            hatchback.style.backgroundColor = "black"
+            hatchback.style.color = "white"
+            basicservice.addEventListener('click', function () {
+                price += 2000
+                basicserviceprice += 2000;
+                basicservice.style.backgroundColor = 'black'
+                basicservice.style.color = "white";
+            })
+            enginefixing.addEventListener('click', function () {
+                enginefixingprice += 5000
+                price += 5000
+                enginefixing.style.backgroundColor = 'black'
+                enginefixing.style.color = "white";
+            })
+            breakfixing.addEventListener('click', function () {
+                breakfixingprice += 1000;
+                price += 1000;
+                breakfixing.style.backgroundColor = "black";
+                breakfixing.style.color = "white"
+            })
+            clutchfixing.addEventListener('click', function () {
+                clutchfixingprice += 2000
+                price += 2000;
+                clutchfixing.style.backgroundColor = "black";
+                clutchfixing.style.color = "white"
+            })
+            gearfixing.addEventListener('click', function () {
+                gearfixingprice += 3000
+                price += 3000;
+                gearfixing.style.backgroundColor = "black";
+                gearfixing.style.color = "white"
+            })
+
+
+        })
+        sedan.addEventListener('click', function (e) {
+            e.preventDefault();
+           
+                document.getElementById('name').innerHTML=name.value
+                sedantext = document.getElementById('sedan').textContent;
+            sedan.style.backgroundColor = "black"
+            sedan.style.color = "white"
+            basicservice.addEventListener('click', function () {
+                basicserviceprice += 4000;
+                price += 4000
+                basicservice.style.backgroundColor = 'black'
+                basicservice.style.color = "white";
+            })
+            enginefixing.addEventListener('click', function () {
+                enginefixingprice += 8000
+                price += 8000
+                enginefixing.style.backgroundColor = 'black'
+                enginefixing.style.color = "white";
+            })
+            breakfixing.addEventListener('click', function () {
+                breakfixingprice += 1500;
+                price += 1500;
+                breakfixing.style.backgroundColor = "black";
+                breakfixing.style.color = "white"
+            })
+            clutchfixing.addEventListener('click', function () {
+                clutchfixingprice += 4000;
+                price += 4000;
+                clutchfixing.style.backgroundColor = "black";
+                clutchfixing.style.color = "white"
+            })
+            gearfixing.addEventListener('click', function () {
+                gearfixingprice += 6000;
+                price += 6000;
+                gearfixing.style.backgroundColor = "black";
+                gearfixing.style.color = "white"
+            })
+
+
+        })
+        suv.addEventListener('click', function (e) {
+            e.preventDefault();
+            suvtext = document.getElementById('suv').textContent
+            suv.style.backgroundColor = "black"
+            suv.style.color = "white"
+            basicservice.addEventListener('click', function () {
+                basicserviceprice += 5000;
+                price += 5000;
+                basicservice.style.backgroundColor = 'black'
+                basicservice.style.color = "white";
+            })
+            enginefixing.addEventListener('click', function () {
+                enginefixingprice += 10000
+                price += 10000
+                enginefixing.style.backgroundColor = 'black'
+                enginefixing.style.color = "white";
+            })
+            breakfixing.addEventListener('click', function () {
+                breakfixingprice += 2500
+                price += 2500
+                breakfixing.style.backgroundColor = "black";
+                breakfixing.style.color = "white"
+            })
+            clutchfixing.addEventListener('click', function () {
+                clutchfixingprice += 6000
+                price += 6000;
+                clutchfixing.style.backgroundColor = "black";
+                clutchfixing.style.color = "white"
+            })
+            gearfixing.addEventListener('click', function () {
+                gearfixingprice += 8000
+                price += 8000;
+                gearfixing.style.backgroundColor = "black";
+                gearfixing.style.color = "white"
+            })
+        })
+        //defining empty div to append "p" childs in which carname textcontet,price etc is generated and printed on bill
+        var carname = document.getElementById('carname')
+        var pricetag = document.getElementById('priceofservice')
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+          
+         if(nameofcustomer.value != "" && number.value!="" && address.value!="" ){
+
+            if (hatchbacktext != undefined) {
+                document.getElementById('carname').innerHTML = "Car name" + ":" + hatchbacktext
+            }
+            if (sedantext != undefined) {
+                document.getElementById('carname').innerHTML = "Car name" + ":" + sedantext
+            }
+            if (suvtext != undefined) {
+                document.getElementById('carname').innerHTML = "Car name" + ":" + suvtext
+            }
+            if(basicserviceprice>0){
+                document.getElementById('basicserviceprice').innerHTML = "Basic serviceprice" + ":" + basicserviceprice
+            }
+          if(enginefixingprice>0){
+            document.getElementById('enginefixingprice').innerHTML = "Engine fixingprice" + ":" + enginefixingprice
+          }
+            if(breakfixingprice>0){
+                document.getElementById('breakfixingprice').innerHTML = "Break fixingprice" + ":" + breakfixingprice
+            }
+            if(clutchfixingprice>0){
+                document.getElementById('clutchfixingprice').innerHTML = "Clutch fixingprice" + ":" + clutchfixingprice
+            }
+          if(gearfixingprice>0){
+            document.getElementById('gearfixingprice').innerHTML = "Gear fixingprice" + ":" + gearfixingprice
+          }
+            
+            document.getElementById('serviceprice').innerHTML = "Total price" + ":" + price
+            document.getElementById('serviceprice').style.borderTop="1px solid black"
+            var date = new Date()
+            document.getElementById('date').innerHTML="Date"+":"+date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()
+            if(price>10000){
+                document.getElementById('complimentaryservice').innerHTML="You got a free complimentary cleaning service as your bill is above 10000"
+            }
+            document.getElementById('signhere').innerHTML="Sign Here"
+            document.getElementById('signhere').style.borderBottom="1px slid black"
+            document.getElementById('cname').innerHTML="Name"+":"+nameofcustomer.value;
+            document.getElementById('mobilenumber').innerHTML="Number"+":"+number.value
+            document.getElementById('customeraddress').innerHTML="Adress"+":"+address.value
+            document.getElementById('customeraddress').style.borderBottom="1px solid black"
+            document.getElementById('billno').innerHTML="Bill number " + " "+"#"+Math.floor(Math.random()*1000-100+1)+100;
+            document.getElementById('billno').style.textAlign="center"
+         }
+           else{
+            alert('please enter your details')
+           }
+        })
+    </script>
+</body>
+
+</html
